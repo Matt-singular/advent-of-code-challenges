@@ -1,2 +1,2 @@
-# advent-of-code-challenges
-Code challenges found on adventofcode.com
+# Advent of Code challenges
+Code challenges found on [adventofcode.com](https://adventofcode.com/)
