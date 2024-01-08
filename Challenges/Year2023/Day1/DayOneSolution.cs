@@ -1,17 +1,10 @@
 ﻿namespace Challenges.Year2023.Day1;
 
-using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using Challenges.Helpers;
-using Microsoft.VisualBasic;
 
 public class DayOneSolution(IFileHelpers fileHelpers) : IDayOneSolution
 {
-  public static class Constants
-  {
-    public const string ChallengeInputFile = "Year2023\\Day1\\DayOneInput.txt";
-  }
-
   public int ProcessPartOne()
   {
     // Solve day one's first problem
@@ -39,9 +32,7 @@ public class DayOneSolution(IFileHelpers fileHelpers) : IDayOneSolution
 
     foreach (var line in fileContents)
     {
-      var pattern = @"(\d)";
-      var matches = new Regex(pattern).Matches(line);
-
+      var matches = new Regex(Constants.DigitsPattern).Matches(line);
       var first = matches.First().Value;
       var last = matches.Last().Value;
 
@@ -66,16 +57,7 @@ public class DayOneSolution(IFileHelpers fileHelpers) : IDayOneSolution
 
     foreach (var line in fileContents)
     {
-      // Very simplistic solution, might write something more elegant later
-      var normalisedLine = NormaliseLine(line, "one");
-      normalisedLine = NormaliseLine(normalisedLine, "two");
-      normalisedLine = NormaliseLine(normalisedLine, "three");
-      normalisedLine = NormaliseLine(normalisedLine, "four");
-      normalisedLine = NormaliseLine(normalisedLine, "five");
-      normalisedLine = NormaliseLine(normalisedLine, "six");
-      normalisedLine = NormaliseLine(normalisedLine, "seven");
-      normalisedLine = NormaliseLine(normalisedLine, "eight");
-      normalisedLine = NormaliseLine(normalisedLine, "nine");
+      var normalisedLine = NormaliseLine(line);
 
       normalisedFileContents.Add(normalisedLine);
     }
@@ -83,22 +65,34 @@ public class DayOneSolution(IFileHelpers fileHelpers) : IDayOneSolution
     return normalisedFileContents;
   }
 
-  public static string NormaliseLine(string line, string pattern)
+  public static string NormaliseLine(string line)
   {
-    var normalisedLine = pattern switch
+    foreach (var kvp in Constants.DigitWords)
     {
-      "one" => new Regex(pattern).Replace(line, "o1e"),
-      "two" => new Regex(pattern).Replace(line, "t2o"),
-      "three" => new Regex(pattern).Replace(line, "t3e"),
-      "four" => new Regex(pattern).Replace(line, "4"),
-      "five" => new Regex(pattern).Replace(line, "5e"),
-      "six" => new Regex(pattern).Replace(line, "6"),
-      "seven" => new Regex(pattern).Replace(line, "7n"),
-      "eight" => new Regex(pattern).Replace(line, "e8t"),
-      "nine" => new Regex(pattern).Replace(line, "n9e"),
-      _ => line
-    } ;
+      var digitWordPattern = kvp.Key;
+      var normalisedValue = kvp.Value;
 
-    return normalisedLine;
+      line = new Regex(digitWordPattern).Replace(line, normalisedValue);
+    }
+
+    return line;
+  }
+
+  public static class Constants
+  {
+    public const string ChallengeInputFile = "Year2023\\Day1\\DayOneInput.txt";
+    public const string DigitsPattern = @"(\d)";
+    public static readonly Dictionary<string, string> DigitWords = new()
+    {
+      { "one", "o1e" },
+      { "two", "t2o" },
+      { "three", "t3e" },
+      { "four", "4" },
+      { "five", "5e" },
+      { "six", "6" },
+      { "seven", "7n" },
+      { "eight", "e8t" },
+      { "nine", "n9e" }
+    };
   }
 }
