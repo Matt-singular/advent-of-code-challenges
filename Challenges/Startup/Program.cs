@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 // Dependency Injection
 var serviceProvider = new ServiceCollection()
-  .AddChallengeServices()
+  .AddChallengeServicesFor2023()
   .BuildServiceProvider();
 
 // Startup messag
