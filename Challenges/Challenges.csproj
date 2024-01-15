@@ -19,6 +19,9 @@
     <None Update="Year2023\Day1\DayOneInput.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Year2023\Day2\DayTwoInput.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
