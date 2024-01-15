@@ -1,4 +1,4 @@
-﻿namespace Challenges.tests.Year2023.Day1;
+﻿namespace Challenges.tests.Year2023;
 
 using Challenges.Helpers;
 using Challenges.Year2023.Day1;
