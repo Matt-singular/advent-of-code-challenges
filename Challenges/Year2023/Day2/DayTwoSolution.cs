@@ -21,7 +21,9 @@ public class DayTwoSolution(IFileHelpers fileHelpers) : IDayTwoSolution
   {
     // Solve day one's second problem
     var fileContents = fileHelpers.ReadFileContents(Constants.ChallengeInputFile);
-    var answer = -1;
+    var gameData = ExtractGameSetData(fileContents);
+    var applicableGames = GetApplicableGameValuesForPartTwo(gameData);
+    var answer = applicableGames.Sum(game => game.GetProductOfCubes());
 
     return answer;
   }
@@ -72,16 +74,37 @@ public class DayTwoSolution(IFileHelpers fileHelpers) : IDayTwoSolution
     return new GameData(red, green, blue);
   } 
 
-  public List<GameSets> GetApplicableGamesForPartOne(List<GameSets> gameData)
+  public List<GameSets> GetApplicableGamesForPartOne(List<GameSets> gameSets)
   {
     var actualCubes = new GameData(red: 12, green: 13, blue: 14);
-    var applicableGames = gameData
-      .Where(gameSets => gameSets.Games.Count > 0
-        ? gameSets.Games.All(game => game <= actualCubes)
+    var applicableGames = gameSets
+      .Where(gameSet => gameSet.Games.Count > 0
+        ? gameSet.Games.All(gameData => gameData <= actualCubes)
         : false)
       .ToList();
 
     return applicableGames;
+  }
+
+  public List<GameData> GetApplicableGameValuesForPartTwo(List<GameSets> gameSets)
+  {
+    var applicableGameValues = gameSets.Select(gameSet => GetMinCubeDataValueForGameSetForPartTwo(gameSet.Games)).ToList();
+
+    return applicableGameValues;
+  }
+
+  public GameData GetMinCubeDataValueForGameSetForPartTwo(List<GameData> games)
+  {
+    var (maxRed, maxGreen, maxBlue) = (0, 0, 0);
+
+    games.ForEach(game =>
+    {
+      maxRed = (maxRed == 0 || game.RedCubes > maxRed) ? game.RedCubes : maxRed;
+      maxGreen = (maxGreen == 0 || game.GreenCubes > maxGreen) ? game.GreenCubes : maxGreen;
+      maxBlue = (maxBlue == 0 || game.BlueCubes > maxBlue) ? game.BlueCubes : maxBlue;
+    });
+
+    return new GameData(maxRed, maxGreen, maxBlue);
   }
 
   /// <summary>

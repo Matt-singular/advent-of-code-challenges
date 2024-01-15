@@ -1,5 +1,7 @@
 ﻿namespace Challenges.Year2023.Day2.Models;
 
+using System.Runtime.CompilerServices;
+
 public class GameData(int red = 0, int green = 0, int blue = 0)
 {
   public int RedCubes { get; set; } = red;
@@ -45,5 +47,12 @@ public class GameData(int red = 0, int green = 0, int blue = 0)
       && leftHandValue.BlueCubes <= rightHandValue.BlueCubes;
 
     return isGreaterThanOrEqualTo;
+  }
+
+  public int GetProductOfCubes()
+  {
+    var product = this.RedCubes * this.GreenCubes * this.BlueCubes;
+
+    return product;
   }
 }
